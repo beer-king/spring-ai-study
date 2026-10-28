@@ -29,7 +29,7 @@ public class AiService {
 
     public String ask(String question) {
         return chatClient.prompt()
-                .system("너는 Java와 Spring 전문가야. 한국어로 설명해.")
+                .system("너는 Java와 Spring 전문가야. 한국어로 설명하고 최대한 상대방이 이해하기 쉽게 설명해줘.")
                 .user(question)
                 .call()
                 .content();
