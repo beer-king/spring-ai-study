@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  ai:
+    model:
+      chat: ollama
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen2.5-coder:1.5b
+          temperature: 0.2
+          num-ctx: 2048
