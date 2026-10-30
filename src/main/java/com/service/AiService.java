@@ -1,9 +1,14 @@
 package com.service;
 
+import com.dto.AiStudyResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated //메서드 검증을 활성화하는 데 사용할 수 있다 검증할 메서드에 @Valid 사용
 public class AiService {
     /*
     ① ChatClient.Builder
@@ -35,4 +40,30 @@ public class AiService {
                 .content();
     }
 
+    @Valid // DTO에 @NotBlank, @Min등의 객체 내부의 필드를 검증한다!!
+    @NotNull // 반환된 AiStudyResponse "객체 자체"가 null인지 검증!!
+    public AiStudyResponse askStructured(String question){
+        return chatClient.prompt()
+                .system("""
+                        너는 Java 개발 교육 담당자야.
+                                            질문에 한국어로 답변해.
+                                            difficulty는 난이도를 1~5 사이 정수로 표시해.
+                                            example에는 간단한 예시를 작성해.
+                        """)
+                .user(question)
+                .call()
+                .entity(AiStudyResponse.class); // DTO 반환
+
+    }
+
+    @NotNull
+    @Valid
+    public AiStudyResponse testValidation() {
+        return new AiStudyResponse(
+                "",
+                "의존성 주입",
+                "생성자 주입",
+                10
+        );
+    }
 }
